@@ -1,10 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aih/bloc/list_photo_bloc.dart';
 import 'package:flutter_aih/model/Photo.dart';
-import 'package:flutter_aih/services/services.dart';
-import 'package:http/http.dart';
 
 void main() {
   runApp(MyApp());
