@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo_bloc/base/base_bloc_provider.dart';
 import 'package:flutter_demo_bloc/bloc/list_photo_bloc.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'model/Photo.dart';
 
@@ -42,25 +43,27 @@ class _MainHomeState extends State<MainHome> {
   @override
   Widget build(BuildContext context) {
     final bloc = BaseBlocProvider.of<PhotoBloc>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Testing"),
-      ),
-      body: StreamBuilder<List<Photo>?>(
-        stream: bloc.photoStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Center(
-              child: Text('An error has occurred!'),
-            );
-          } else if (snapshot.hasData) {
-            return PhotosList(photos: snapshot.data!);
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Testing"),
+        ),
+        body: StreamBuilder<List<Photo>?>(
+          stream: bloc.photoStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const Center(
+                child: Text('An error has occurred!'),
+              );
+            } else if (snapshot.hasData) {
+              return PhotosList(photos: snapshot.data!);
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -88,15 +91,9 @@ class PhotosList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(
-              photos[index].thumbnailUrl ?? "",
-              errorBuilder: (BuildContext context, Object exception,
-                  StackTrace? stackTrace) {
-                return const Icon(
-                  Icons.add_box,
-                  size: 40,
-                );
-              },
+            FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: photos[index].thumbnailUrl ?? "",
             ),
             Flexible(
               child: Padding(
