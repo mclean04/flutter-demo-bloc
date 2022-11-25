@@ -1,4 +1,5 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_demo_bloc/base/bloc.dart';
 
 class BaseBlocProvider<T extends BaseBloc> extends StatefulWidget {

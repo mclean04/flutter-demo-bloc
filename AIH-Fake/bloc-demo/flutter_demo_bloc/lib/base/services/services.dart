@@ -4,6 +4,31 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 class BaseServices {
+  static Future<dynamic> getMethodPath(String url, String param) async {
+    try {
+      var requestUrl = "$url/$param";
+      Uri tempUrl = Uri.parse(requestUrl);
+      Response res = await get(tempUrl).timeout(const Duration(minutes: 5));
+
+      var responseDecode = json.decode(res.body);
+      switch (res.statusCode) {
+        case 200:
+        case 201:
+          return responseDecode;
+        case 400:
+        case 500:
+          print("API message: ${responseDecode["message"]}");
+          return null;
+        default:
+          print("Cannot executed GET Method, status code : ${res.statusCode}");
+          return null;
+      }
+    } on TimeoutException catch (_) {
+      print("Server not response");
+      return null;
+    }
+  }
+
   static Future<dynamic> getMethod(String url, param) async {
     try {
       String queryString = Uri(queryParameters: param).query;

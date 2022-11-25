@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo_bloc/base/base_bloc_provider.dart';
-import 'package:flutter_demo_bloc/bloc/list_photo_bloc.dart';
+import 'package:flutter_demo_bloc/bloc/photo_bloc.dart';
+import 'package:flutter_demo_bloc/extension/ultils.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import 'model/Photo.dart';
@@ -87,25 +88,28 @@ class PhotosList extends StatelessWidget {
       ),
       itemCount: photos.length,
       itemBuilder: (context, index) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FadeInImage.memoryNetwork(
-              placeholder: kTransparentImage,
-              image: photos[index].thumbnailUrl ?? "",
-            ),
-            Flexible(
-              child: Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Text(
-                    photos[index].title.toString(),
-                    maxLines: 4,
-                    overflow: TextOverflow.clip,
-                    textAlign: TextAlign.center,
-                  )),
-            )
-          ],
+        return InkWell(
+          onTap: () => showToast("Touch item ${photos[index].title}"),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FadeInImage.memoryNetwork(
+                placeholder: kTransparentImage,
+                image: photos[index].thumbnailUrl ?? "",
+              ),
+              Flexible(
+                child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Text(
+                      photos[index].title.toString(),
+                      maxLines: 4,
+                      overflow: TextOverflow.clip,
+                      textAlign: TextAlign.center,
+                    )),
+              )
+            ],
+          ),
         );
       },
     );
