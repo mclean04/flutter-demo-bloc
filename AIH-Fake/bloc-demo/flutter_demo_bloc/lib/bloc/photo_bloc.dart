@@ -8,15 +8,10 @@ import 'photo_responsitory.dart';
 
 class PhotoBloc implements BaseBloc {
   final _listPhotoController = StreamController<List<Photo>>();
-  final _detailPhotoController = StreamController<Photo>();
 
   Sink<List<Photo>> get listPhoto => _listPhotoController.sink;
 
   late Stream<List<Photo>?> photoStream;
-
-  Sink<Photo> get detailPhoto => _detailPhotoController.sink;
-
-  late Stream<List<Photo>?> detailPhotoStream;
 
   final _respository = PhotoRespository();
 
@@ -40,24 +35,10 @@ class PhotoBloc implements BaseBloc {
     }
   }
 
-  fetchDetail(Int albumId) async {
-    var info = await _respository
-        .getDetailPhoto(albumId)
-        .timeout(const Duration(minutes: 5));
-    try {
-      if (info != null) {
-        _detailPhotoController.sink.add(info);
-      } else {
-        _detailPhotoController.sink.addError("No data");
-      }
-    } catch (e) {
-      _listPhotoController.sink.addError(e.toString());
-    }
-  }
+  
 
   @override
   void dispose() {
     _listPhotoController.close();
-    _detailPhotoController.close();
   }
 }

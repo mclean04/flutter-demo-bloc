@@ -23,7 +23,7 @@ class PhotoRespository {
   }
 
 
-  Future<Photo?> getDetailPhoto(Int albumId) async{
+  Future<Photo?> getDetailPhoto(int albumId) async{
      var header = {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
@@ -32,7 +32,7 @@ class PhotoRespository {
         'https://jsonplaceholder.typicode.com/photos', albumId.toString());
 
     if (response != null) {
-      return response.map<Photo>((json) => Photo.fromJson(json)).toList();
+      return Photo.fromJson(response);
     } else {
       return null;
     }
